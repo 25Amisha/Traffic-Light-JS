@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Light</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,64 +13,104 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #7e99f0;
         }
         .container {
             text-align: center;
+            align-items: center;
+            padding: 20px;
         }
         .traffic-light {
             width: 100px;
-            height: 300px;
+            height: 400px;
             position: relative;
             margin: 0 auto;
+            border: 2px solid whitesmoke;
+            background-color: #050000;
+            border-radius: 10px;
+            padding: 10px;
         }
         .light {
             width: 100px;
             height: 100px;
             border-radius: 50%;
+            margin: 10px;
             position: absolute;
             transition: opacity 0.3s;
+            border: 1px solid #130000;
         }
         .red {
             background-color: #ff0000;
             top: 0;
+            left: 0;
+            right: 0;
+    
         }
         .yellow {
             background-color: #ffff00;
-            top: 100px;
+            top: 120px;
+            left: 0;
+            right: 0;
         }
         .green {
             background-color: #00ff00;
-            top: 200px;
+            top: 240px;
+            left: 0;
+            right: 0;
         }
+    
         button {
             display: block;
             margin: 20px auto;
+            background-color: indianred;
+            font-size: 25px;
+            cursor: pointer;
+        }
+        .timer {
+            font-size: 20px;
+            margin-top: 20px;
         }
     </style>
-    <title>Traffic Light</title>
 </head>
 <body>
     <div class="container">
-        <h2>Traffic Light</h2>
+        <h1>Traffic Light</h1>
         <div class="traffic-light" id="traffic-light">
             <div class="light red"></div>
             <div class="light yellow"></div>
             <div class="light green"></div>
+            
         </div>
         <button onclick="switchLight()">Switch</button>
+        <div class="timer" id="timer"></div>
     </div>
     <script>
         let currentLight = 0;
         const lights = document.querySelectorAll('.light');
+        const timerEl = document.getElementById('timer');
+        let timer;
 
         function switchLight() {
             lights.forEach(light => light.style.opacity = '0');
             lights[currentLight].style.opacity = '1';
             currentLight = (currentLight + 1) % lights.length;
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            let timeLeft = 3;
+            timer = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = `${timeLeft}s`;
+                if (timeLeft === 0) {
+                    switchLight();
+                }
+            }, 1000);
         }
 
         setInterval(switchLight, 3000);
+        startTimer();
     </script>
 </body>
 </html>
